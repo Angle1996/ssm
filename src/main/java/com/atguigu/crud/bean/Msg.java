@@ -22,6 +22,14 @@ public class Msg {
 		msg.setMsg("处理成功!");
 		return msg;
 	}
+
+	public static Msg fail() {
+		Msg msg = new Msg();
+		msg.setCode(200);
+		msg.setMsg("处理失败！");
+		return msg;
+	}
+
 	public Msg add(String key,Object value){
 		this.getExtend().put(key, value);
 		return this;

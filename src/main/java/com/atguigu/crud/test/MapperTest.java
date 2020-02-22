@@ -41,7 +41,7 @@ public class MapperTest {
 	@Test
 	public void insertBatch(){
 		EmployeeMapper employeeMapper = sqlSession.getMapper(EmployeeMapper.class);
-		for (int i = 0; i < 10000; i++) {
+		for (int i = 0; i < 500; i++) {
 			int j= (int) (Math.round(Math.random()*1)+1);
 			String g=String.valueOf((int) Math.floor(Math.random()*2));
 			String uid = UUID.randomUUID().toString().substring(0,5)+i;

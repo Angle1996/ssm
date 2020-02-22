@@ -25,4 +25,16 @@ public class EmployeeService {
 		employeeExample.setOrderByClause("emp_id");
 		return employeeMapper.selectByExampleWithDept(employeeExample);
 	}
+
+	public void saveEmp(Employee employee) {
+		employeeMapper.insertSelective(employee);
+	}
+
+	public boolean checkUser(String empName) {
+		EmployeeExample example=new EmployeeExample();
+		EmployeeExample.Criteria criteria = example.createCriteria();
+		criteria.andEmpNameEqualTo(empName);
+		long count = employeeMapper.countByExample(example);
+		return count==0;
+	}
 }
