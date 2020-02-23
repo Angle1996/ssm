@@ -142,7 +142,7 @@
                 <span class="glyphicon glyphicon-plus"></span>
                 新增
             </button>
-            <button class="btn btn-danger">
+            <button class="btn btn-danger" id="emp_delete_all_btn">
                 <span class="glyphicon glyphicon-minus"></span>
                 删除
             </button>
@@ -519,7 +519,42 @@
             });
         }pag
     });
-
+    //完成全选/全不选功能
+    $("#check_all").click(function () {
+        $(".check_item").prop("checked",$(this).prop("checked"));
+    });
+    //check_item
+    $(document).on("click",".check_item",function(){
+        //判断当前选择中的元素是否5个
+        var flag = $(".check_item:checked").length==$(".check_item").length;
+        $("#check_all").prop("checked",flag);
+    });
+    //点击全部删除,就批量删除
+    $("#emp_delete_all_btn").click(function () {
+        var empNames="";
+        var del_idstr="";
+        $.each($(".check_item:checked"),function () {
+            empNames+=$(this).parents("tr").find("td:eq(2)").text()+",";
+            del_idstr+=$(this).parents("tr").find("td:eq(1)").text()+"-";
+        })
+        //去除empNames多余的,
+        empNames = empNames.substring(0, empNames.length-1);
+        //去除删除的id多余的-
+        del_idstr = del_idstr.substring(0, del_idstr.length-1);
+        if (confirm("确认删除【"+empNames+"】吗？")){
+            //发送ajax请求删除
+            $.ajax({
+                url:"${pageContext.request.contextPath}/emp/"+del_idstr,
+                type:"DELETE",
+                success:function(result){
+                    alert(result.msg);
+                    $("#check_all").prop("checked",false);
+                    //回到当前页面
+                    to_page(currentPage);
+                }
+            })
+        }
+    });
 </script>
 
 </body>
